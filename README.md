@@ -4,7 +4,8 @@
 A modern restaurant app built using SwiftUI.
 
 ## Video Preview
-A video preview of the app is available: [Showcase Little Lemon App]([./ShowcaseLittleLemonAppVideo.mp4](https://a-bv.github.io/Capstone-iOS/ShowcaseLittleLemonAppVideo.mp4))
+A video preview of the app is available: [Showcase Little Lemon App](https://a-bv.github.io/Capstone-iOS/ShowcaseLittleLemonAppVideo.mp4)
+
 
 ## Features
 
