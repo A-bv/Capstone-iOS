@@ -8,7 +8,7 @@ struct PersistenceController {
 
     init() {
         container = NSPersistentContainer(name: "ExampleDatabase")
-        container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        // Use the default on-disk store so the cached menu survives app launches.
         container.loadPersistentStores(completionHandler: {_,_ in })
         container.viewContext.automaticallyMergesChangesFromParent = true
     }

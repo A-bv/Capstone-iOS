@@ -13,9 +13,13 @@ class MenuViewModel: ObservableObject {
 	private let urlString = "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json"
 	
 	func getMenuData(context: NSManagedObjectContext) {
-		let persistenceController = PersistenceController.shared
-		persistenceController.clear()
-		
+		// Show whatever is already cached on disk first.
+		fetchMenuItemsFromCoreData(context: context)
+
+		// Only hit the network the first time, when the cache is still empty.
+		// This avoids re-downloading (and duplicating) the menu on every appear.
+		guard dishes.isEmpty else { return }
+
 		guard let url = URL(string: urlString) else { return }
 		let request = URLRequest(url: url)
 		
