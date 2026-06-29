@@ -5,6 +5,7 @@ struct MenuItem: Decodable {
 	let itemDescription: String?
 	
 	private enum CodingKeys: String, CodingKey {
-		case title, image, price, itemDescription
+		case title, image, price
+		case itemDescription = "description"
 	}
 }
