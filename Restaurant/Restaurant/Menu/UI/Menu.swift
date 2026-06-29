@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Menu: View {
-	@ObservedObject private var viewModel = MenuViewModel()
+	@StateObject private var viewModel = MenuViewModel()
 	@Environment(\.managedObjectContext) private var viewContext
 	@State private var searchText = ""
 	
