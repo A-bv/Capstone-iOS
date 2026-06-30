@@ -21,7 +21,15 @@ struct MenuItemDetailView: View {
 			
 			Text("Price: $\(dish.price ?? "")")
 				.font(.headline)
-			
+
+			if let description = dish.itemDescription, !description.isEmpty {
+				Text(description)
+					.font(.body)
+					.foregroundColor(.secondary)
+					.multilineTextAlignment(.center)
+					.padding()
+			}
+
 			Spacer()
 		}
 		.navigationTitle("Dish Details")
