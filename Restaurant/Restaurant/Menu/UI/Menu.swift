@@ -12,7 +12,7 @@ struct Menu: View {
 	}
 	
 	var body: some View {
-		NavigationView {
+		NavigationStack {
 			VStack(spacing: 0) {
 				MenuHeroView()
 				VStack {
