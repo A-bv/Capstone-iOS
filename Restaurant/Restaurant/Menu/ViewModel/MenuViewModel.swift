@@ -1,49 +1,69 @@
 import CoreData
 
 class MenuViewModel: ObservableObject {
-	@Published var menuItems: [MenuItem] = []
 	@Published var dishes: [Dish] = []
 	@Published var filteredDishes: [Dish] = []
+	@Published var isLoading = false
+	@Published var errorMessage: String?
 	@Published var searchText: String = "" {
 		didSet {
 			updateFilteredDishes()
 		}
 	}
-	
+
 	private let urlString = "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json"
-	
+
 	func getMenuData(context: NSManagedObjectContext) {
-		let persistenceController = PersistenceController.shared
-		persistenceController.clear()
-		
-		guard let url = URL(string: urlString) else { return }
-		let request = URLRequest(url: url)
-		
-		let task = URLSession.shared.dataTask(with: request) { data, response, error in
+		// Show whatever is already cached on disk first.
+		fetchMenuItemsFromCoreData(context: context)
+
+		// Only hit the network the first time, when the cache is still empty.
+		// This avoids re-downloading (and duplicating) the menu on every appear.
+		guard dishes.isEmpty else { return }
+
+		guard let url = URL(string: urlString) else {
+			errorMessage = "The menu address is invalid."
+			return
+		}
+
+		isLoading = true
+		errorMessage = nil
+
+		let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+			guard let self else { return }
+
 			if let error = error {
-				print("Error fetching data: \(error)")
+				self.finish(withError: "Couldn't load the menu. Please check your connection and try again.\n\(error.localizedDescription)")
 				return
 			}
-			
-			if let data = data {
-				do {
-					let decoder = JSONDecoder()
-					let menuList = try decoder.decode(MenuList.self, from: data)
-					DispatchQueue.main.async {
-						self.saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
-						self.fetchMenuItemsFromCoreData(context: context)
-					}
-				} catch {
-					print("Error decoding data: \(error)")
+
+			guard let data = data else {
+				self.finish(withError: "No data was received from the server.")
+				return
+			}
+
+			do {
+				let menuList = try JSONDecoder().decode(MenuList.self, from: data)
+				DispatchQueue.main.async {
+					self.saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
+					self.fetchMenuItemsFromCoreData(context: context)
+					self.isLoading = false
 				}
-			} else {
-				print("No data received")
+			} catch {
+				self.finish(withError: "Couldn't read the menu data.\n\(error.localizedDescription)")
 			}
 		}
-		
+
 		task.resume()
 	}
-	
+
+	private func finish(withError message: String) {
+		DispatchQueue.main.async {
+			self.errorMessage = message
+			self.isLoading = false
+		}
+	}
+
 	private func saveMenuItemsToCoreData(context: NSManagedObjectContext, menuItems: [MenuItem]) {
 		for menuItem in menuItems {
 			let dish = Dish(context: context)
@@ -51,46 +71,43 @@ class MenuViewModel: ObservableObject {
 			dish.price = menuItem.price
 			dish.itemDescription = menuItem.itemDescription
 			dish.image = menuItem.image
-			
-			do {
-				try context.save()
-			} catch {
-				print("Error saving to Core Data: \(error)")
-			}
+		}
+
+		// Save once for the whole batch instead of on every item.
+		do {
+			try context.save()
+		} catch {
+			print("Error saving to Core Data: \(error)")
 		}
 	}
-	
+
 	private func fetchMenuItemsFromCoreData(context: NSManagedObjectContext) {
 		let fetchRequest: NSFetchRequest<Dish> = Dish.fetchRequest()
 		fetchRequest.sortDescriptors = buildSortDescriptors()
-		
+
 		do {
 			dishes = try context.fetch(fetchRequest)
-			filteredDishes = dishes
-			print("Fetched \(dishes.count) dishes from Core Data")
 			updateFilteredDishes()
 		} catch {
 			print("Error fetching from Core Data: \(error)")
 		}
 	}
-	
+
 	private func updateFilteredDishes() {
-		filteredDishes = dishes.filter { dish in
-			let predicate = buildPredicate(searchText: searchText)
-			return predicate.evaluate(with: dish)
-		}
+		let predicate = buildPredicate(searchText: searchText)
+		filteredDishes = dishes.filter { predicate.evaluate(with: $0) }
 	}
-	
+
 	func applySearchFilter(_ searchText: String) {
 		self.searchText = searchText
 	}
-	
+
 	private func buildSortDescriptors() -> [NSSortDescriptor] {
 		return [
 			NSSortDescriptor(key: "title", ascending: true, selector: #selector(NSString.localizedStandardCompare))
 		]
 	}
-	
+
 	func buildPredicate(searchText: String) -> NSPredicate {
 		return searchText.isEmpty ? NSPredicate(value: true) : NSPredicate(format: "title CONTAINS[cd] %@", searchText)
 	}

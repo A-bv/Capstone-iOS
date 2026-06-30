@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Menu: View {
-	@ObservedObject private var viewModel = MenuViewModel()
+	@StateObject private var viewModel = MenuViewModel()
 	@Environment(\.managedObjectContext) private var viewContext
 	@State private var searchText = ""
 	
@@ -12,7 +12,7 @@ struct Menu: View {
 	}
 	
 	var body: some View {
-		NavigationView {
+		NavigationStack {
 			VStack(spacing: 0) {
 				MenuHeroView()
 				VStack {
@@ -26,32 +26,48 @@ struct Menu: View {
 				
 				MenuBreakdownView()
 
-				List(viewModel.filteredDishes, id: \.title) { item in
-					NavigationLink(destination: MenuItemDetailView(dish: item)) {
-						HStack {
-							Text("\(item.title ?? "") - $\(item.price ?? "")")
-								.font(.headline)
-							
-							Spacer()
-							
-							if let imageUrl = item.image, let url = URL(string: imageUrl) {
-								AsyncImage(
-									url: url,
-									content: { image in
-										image.resizable()
-											.aspectRatio(contentMode: .fit)
-									},
-									placeholder: {
-										ProgressView()
-									}
-								)
-								.cornerRadius(Constants.imageCornerRadius)
-								.frame(width: Constants.imageLength, height: Constants.imageLength)
+				if let errorMessage = viewModel.errorMessage {
+					ContentUnavailableView {
+						Label("Menu unavailable", systemImage: "wifi.exclamationmark")
+					} description: {
+						Text(errorMessage)
+					} actions: {
+						Button("Retry") {
+							viewModel.getMenuData(context: viewContext)
+						}
+					}
+					.frame(maxHeight: .infinity)
+				} else if viewModel.isLoading && viewModel.filteredDishes.isEmpty {
+					ProgressView("Loading menu…")
+						.frame(maxHeight: .infinity)
+				} else {
+					List(viewModel.filteredDishes, id: \.title) { item in
+						NavigationLink(destination: MenuItemDetailView(dish: item)) {
+							HStack {
+								Text("\(item.title ?? "") - $\(item.price ?? "")")
+									.font(.headline)
+
+								Spacer()
+
+								if let imageUrl = item.image, let url = URL(string: imageUrl) {
+									AsyncImage(
+										url: url,
+										content: { image in
+											image.resizable()
+												.aspectRatio(contentMode: .fit)
+										},
+										placeholder: {
+											ProgressView()
+										}
+									)
+									.cornerRadius(Constants.imageCornerRadius)
+									.frame(width: Constants.imageLength, height: Constants.imageLength)
+								}
 							}
 						}
 					}
+					.listStyle(.plain)
 				}
-				.listStyle(.plain)
 			}
 			.onAppear {
 				viewModel.getMenuData(context: viewContext)

@@ -28,18 +28,18 @@ To get started with the Little Lemon App, follow these steps:
 1. **Clone the Repository:**
 
     ```bash
-    git clone https://github.com/your-username/little-lemon-app.git
+    git clone https://github.com/A-bv/Capstone-iOS.git
     ```
 
 2. **Navigate to the Project Directory:**
 
     ```bash
-    cd little-lemon-app
+    cd Capstone-iOS
     ```
 
 3. **Open in Xcode:**
 
-    Open the `LittleLemonApp.xcodeproj` file in Xcode.
+    Open the `Restaurant/Restaurant.xcodeproj` file in Xcode.
 
 4. **Build and Run:**
 
@@ -88,12 +88,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - [SwiftUI](https://developer.apple.com/xcode/swiftui/) - A framework to build user interfaces across all Apple platforms.
-- [Combine](https://developer.apple.com/documentation/combine) - A framework that provides a declarative Swift API for processing values over time.
+- [Core Data](https://developer.apple.com/documentation/coredata) - Used to cache the fetched menu on device for offline access.
 
-## Additional ressources
+## Additional resources
 
 Wireframes: Two wireframes are available in the repository and can be opened with Figma.
-
----
-
-Feel free to adjust this README to better fit your project’s specifics and requirements!
