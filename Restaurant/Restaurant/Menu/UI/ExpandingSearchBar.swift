@@ -50,7 +50,7 @@ struct ExpandingSearchBar: View {
 								.foregroundColor(.gray)
 						}
 						.padding(.leading, Constants.horizontalPadding)
-						.autocapitalization(.none)
+						.textInputAutocapitalization(.never)
 						.disableAutocorrection(true)
 					}
 					.transition(.move(edge: .trailing))

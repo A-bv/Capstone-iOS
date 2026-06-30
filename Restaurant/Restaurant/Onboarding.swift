@@ -29,7 +29,7 @@ struct Onboarding: View {
 					.padding()
 					.textFieldStyle(RoundedBorderTextFieldStyle())
 					.keyboardType(.emailAddress)
-					.autocapitalization(.none)
+					.textInputAutocapitalization(.never)
 					.disableAutocorrection(true)
 				
 				Button("Register") {
