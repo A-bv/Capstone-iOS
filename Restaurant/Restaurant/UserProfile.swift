@@ -6,38 +6,79 @@ struct UserProfile: View {
 	let firstName = UserDefaults.standard.string(forKey: keyFirstName) ?? ""
 	let lastName = UserDefaults.standard.string(forKey: keyLastName) ?? ""
 	let email = UserDefaults.standard.string(forKey: keyEmail) ?? ""
-	
+
+	private var initials: String {
+		let first = firstName.first.map(String.init) ?? ""
+		let last = lastName.first.map(String.init) ?? ""
+		let value = (first + last).uppercased()
+		return value.isEmpty ? "?" : value
+	}
+
 	var body: some View {
-		VStack {
-			Text("Personal information")
-				.font(.largeTitle)
-				.padding()
-			
-			Image(systemName: "person.crop.circle.fill")
-				.resizable()
-				.foregroundColor(.darkGreenLittleLemon)
-				.frame(width: 100, height: 100)
-				.clipShape(Circle())
-				.padding()
-			
-			Text("First Name: \(firstName)")
-				.font(.title2)
-				.padding(.top)
-			
-			Text("Last Name: \(lastName)")
-				.font(.title2)
-				.padding(.top)
-			
-			Text("Email: \(email)")
-				.font(.title2)
-				.padding(.top)
-			
-			Button("Logout") {
-				isLoggedIn = false
+		NavigationStack {
+			VStack(spacing: 24) {
+				VStack(spacing: 12) {
+					ZStack {
+						Circle().fill(Color.darkGreenLittleLemon)
+						Text(initials)
+							.font(.largeTitle.bold())
+							.foregroundStyle(.white)
+					}
+					.frame(width: 96, height: 96)
+
+					Text("\(firstName) \(lastName)")
+						.font(.title2.bold())
+
+					if !email.isEmpty {
+						Text(email)
+							.font(.subheadline)
+							.foregroundStyle(.secondary)
+					}
+				}
+				.padding(.top, 24)
+
+				VStack(spacing: 0) {
+					ProfileRow(label: "First name", value: firstName)
+					Divider()
+					ProfileRow(label: "Last name", value: lastName)
+					Divider()
+					ProfileRow(label: "Email", value: email)
+				}
+				.background(Color(.systemGray6))
+				.clipShape(RoundedRectangle(cornerRadius: 12))
+				.padding(.horizontal)
+
+				Spacer()
+
+				Button(role: .destructive) {
+					isLoggedIn = false
+				} label: {
+					Text("Log out")
+						.font(.headline)
+						.frame(maxWidth: .infinity)
+						.padding()
+				}
+				.buttonStyle(.borderedProminent)
+				.tint(.red)
+				.padding(.horizontal)
+				.padding(.bottom)
 			}
-			.padding(.top)
-			
+			.navigationTitle("Profile")
+		}
+	}
+}
+
+struct ProfileRow: View {
+	let label: String
+	let value: String
+
+	var body: some View {
+		HStack {
+			Text(label)
+				.foregroundStyle(.secondary)
 			Spacer()
+			Text(value)
+				.multilineTextAlignment(.trailing)
 		}
 		.padding()
 	}
@@ -46,4 +87,3 @@ struct UserProfile: View {
 #Preview {
 	UserProfile()
 }
-
