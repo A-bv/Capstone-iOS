@@ -1,7 +1,10 @@
 import CoreData
+import OSLog
 
 @MainActor
 final class MenuViewModel: ObservableObject {
+	private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Restaurant", category: "MenuViewModel")
+
 	@Published var dishes: [Dish] = []
 	@Published var filteredDishes: [Dish] = []
 	@Published var isLoading = false
@@ -58,7 +61,7 @@ final class MenuViewModel: ObservableObject {
 		do {
 			try context.save()
 		} catch {
-			print("Error saving to Core Data: \(error)")
+			logger.error("Failed to save menu to Core Data: \(error.localizedDescription, privacy: .public)")
 		}
 	}
 
@@ -70,7 +73,7 @@ final class MenuViewModel: ObservableObject {
 			dishes = try context.fetch(fetchRequest)
 			updateFilteredDishes()
 		} catch {
-			print("Error fetching from Core Data: \(error)")
+			logger.error("Failed to fetch menu from Core Data: \(error.localizedDescription, privacy: .public)")
 		}
 	}
 
