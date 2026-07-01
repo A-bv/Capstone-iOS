@@ -41,8 +41,6 @@ struct CategoryButton: View {
 	}
 }
 
-struct DeliveryMenuView_Previews: PreviewProvider {
-	static var previews: some View {
-		MenuBreakdownView()
-	}
+#Preview {
+	MenuBreakdownView()
 }

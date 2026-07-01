@@ -48,8 +48,6 @@ struct MenuHeroView: View {
 	}
 }
 
-struct MenuHeaderView_Previews: PreviewProvider {
-	static var previews: some View {
-		MenuHeroView()
-	}
+#Preview {
+	MenuHeroView()
 }
