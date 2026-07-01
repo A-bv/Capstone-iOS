@@ -21,6 +21,12 @@ A video preview of the app is available: [Showcase Little Lemon App](https://a-b
 
 The Little Lemon App is designed to provide a seamless user experience for managing restaurant interactions. Key functionalities include account management and menu selection with search capabilities.
 
+## Requirements
+
+- iOS 17.2 or later
+- Xcode 15 or later
+- Swift 5
+
 ## Installation
 
 To get started with the Little Lemon App, follow these steps:
