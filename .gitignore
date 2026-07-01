@@ -29,3 +29,8 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Large media kept out of the repo (host externally, e.g. a release or Figma)
+Meta UX Little Lemon Prototype.fig
+Showcase Little Lemon App.mp4
+ShowcaseLittleLemonAppVideo.mp4

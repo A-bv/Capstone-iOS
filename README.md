@@ -9,10 +9,6 @@ A modern restaurant app built using SwiftUI.
 | :--: | :--: |
 | <img src="Screenshots/menu.jpg" width="250" alt="Little Lemon menu screen"> | <img src="Screenshots/dish-detail.jpg" width="250" alt="Little Lemon dish detail screen"> |
 
-## Video Preview
-A video preview of the app is available: [Showcase Little Lemon App](https://a-bv.github.io/Capstone-iOS/ShowcaseLittleLemonAppVideo.mp4)
-
-
 ## Features
 
 - **Account Creation and Persistence:** 
