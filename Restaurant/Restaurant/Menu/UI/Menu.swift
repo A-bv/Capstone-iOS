@@ -4,11 +4,6 @@ struct Menu: View {
 	@StateObject private var viewModel = MenuViewModel()
 	@Environment(\.managedObjectContext) private var viewContext
 
-	private enum Constants {
-		static let imageLength: CGFloat = 100
-		static let imageCornerRadius: CGFloat = 8
-	}
-	
 	var body: some View {
 		NavigationStack {
 			VStack(spacing: 0) {
@@ -30,30 +25,17 @@ struct Menu: View {
 				} else if viewModel.isLoading && viewModel.filteredDishes.isEmpty {
 					ProgressView("Loading menu…")
 						.frame(maxHeight: .infinity)
+				} else if viewModel.filteredDishes.isEmpty {
+					ContentUnavailableView(
+						"No dishes found",
+						systemImage: "magnifyingglass",
+						description: Text("Try a different search or category.")
+					)
+					.frame(maxHeight: .infinity)
 				} else {
-					List(viewModel.filteredDishes, id: \.title) { item in
-						NavigationLink(destination: MenuItemDetailView(dish: item)) {
-							HStack {
-								Text("\(item.title ?? "") - $\(item.price ?? "")")
-									.font(.headline)
-
-								Spacer()
-
-								if let imageUrl = item.image, let url = URL(string: imageUrl) {
-									AsyncImage(
-										url: url,
-										content: { image in
-											image.resizable()
-												.aspectRatio(contentMode: .fit)
-										},
-										placeholder: {
-											ProgressView()
-										}
-									)
-									.cornerRadius(Constants.imageCornerRadius)
-									.frame(width: Constants.imageLength, height: Constants.imageLength)
-								}
-							}
+					List(viewModel.filteredDishes, id: \.objectID) { dish in
+						NavigationLink(destination: MenuItemDetailView(dish: dish)) {
+							MenuRow(dish: dish)
 						}
 					}
 					.listStyle(.plain)
@@ -75,5 +57,57 @@ struct Menu: View {
 				}
 			}
 		}
+	}
+}
+
+struct MenuRow: View {
+	let dish: Dish
+
+	private enum Constants {
+		static let imageSize: CGFloat = 80
+		static let cornerRadius: CGFloat = 8
+	}
+
+	var body: some View {
+		HStack(spacing: 12) {
+			VStack(alignment: .leading, spacing: 4) {
+				Text(dish.title ?? "")
+					.font(.headline)
+					.foregroundStyle(.primary)
+
+				if let description = dish.itemDescription, !description.isEmpty {
+					Text(description)
+						.font(.subheadline)
+						.foregroundStyle(.secondary)
+						.lineLimit(2)
+				}
+
+				Text("$\(dish.price ?? "")")
+					.font(.subheadline.weight(.semibold))
+					.foregroundStyle(Color.darkGreenLittleLemon)
+			}
+
+			Spacer(minLength: 8)
+
+			if let image = dish.image, let url = URL(string: image) {
+				AsyncImage(url: url) { phase in
+					switch phase {
+					case .success(let image):
+						image.resizable().aspectRatio(contentMode: .fill)
+					case .failure:
+						Image(systemName: "photo")
+							.foregroundStyle(.secondary)
+					case .empty:
+						ProgressView()
+					@unknown default:
+						Color(.systemGray6)
+					}
+				}
+				.frame(width: Constants.imageSize, height: Constants.imageSize)
+				.background(Color(.systemGray6))
+				.clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+			}
+		}
+		.padding(.vertical, 6)
 	}
 }
