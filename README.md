@@ -5,9 +5,9 @@ A modern restaurant app built using SwiftUI.
 
 ## Screenshots
 
-| Menu | Dish detail |
+| Sign up | Menu |
 | :--: | :--: |
-| <img src="Screenshots/menu.jpg" width="250" alt="Little Lemon menu screen"> | <img src="Screenshots/dish-detail.jpg" width="250" alt="Little Lemon dish detail screen"> |
+| <img src="Screenshots/onboarding.jpg" width="250" alt="Little Lemon sign-up screen"> | <img src="Screenshots/menu.jpg" width="250" alt="Little Lemon menu screen"> |
 
 ## Features
 
