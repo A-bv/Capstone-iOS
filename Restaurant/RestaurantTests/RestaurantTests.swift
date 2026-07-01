@@ -1,6 +1,7 @@
 import XCTest
 @testable import Restaurant
 
+@MainActor
 final class RestaurantTests: XCTestCase {
 
 	// MARK: - Email validation

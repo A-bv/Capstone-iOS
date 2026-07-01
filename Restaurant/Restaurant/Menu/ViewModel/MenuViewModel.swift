@@ -1,6 +1,7 @@
 import CoreData
 
-class MenuViewModel: ObservableObject {
+@MainActor
+final class MenuViewModel: ObservableObject {
 	@Published var dishes: [Dish] = []
 	@Published var filteredDishes: [Dish] = []
 	@Published var isLoading = false
@@ -29,38 +30,18 @@ class MenuViewModel: ObservableObject {
 		isLoading = true
 		errorMessage = nil
 
-		let task = URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-			guard let self else { return }
-
-			if let error = error {
-				self.finish(withError: "Couldn't load the menu. Please check your connection and try again.\n\(error.localizedDescription)")
-				return
-			}
-
-			guard let data = data else {
-				self.finish(withError: "No data was received from the server.")
-				return
-			}
-
+		Task {
 			do {
+				let (data, _) = try await URLSession.shared.data(from: url)
 				let menuList = try JSONDecoder().decode(MenuList.self, from: data)
-				DispatchQueue.main.async {
-					self.saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
-					self.fetchMenuItemsFromCoreData(context: context)
-					self.isLoading = false
-				}
+				saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
+				fetchMenuItemsFromCoreData(context: context)
+			} catch let error as DecodingError {
+				errorMessage = "Couldn't read the menu data.\n\(error.localizedDescription)"
 			} catch {
-				self.finish(withError: "Couldn't read the menu data.\n\(error.localizedDescription)")
+				errorMessage = "Couldn't load the menu. Please check your connection and try again.\n\(error.localizedDescription)"
 			}
-		}
-
-		task.resume()
-	}
-
-	private func finish(withError message: String) {
-		DispatchQueue.main.async {
-			self.errorMessage = message
-			self.isLoading = false
+			isLoading = false
 		}
 	}
 
