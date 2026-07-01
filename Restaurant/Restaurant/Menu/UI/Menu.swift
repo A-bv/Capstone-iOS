@@ -24,7 +24,7 @@ struct Menu: View {
 				.frame(height: Constants.searchBarContainerHeight)
 				//.border(Color.red, width: 1)
 				
-				MenuBreakdownView()
+				MenuBreakdownView(viewModel: viewModel)
 
 				if let errorMessage = viewModel.errorMessage {
 					ContentUnavailableView {

@@ -3,9 +3,10 @@ struct MenuItem: Decodable {
 	let image: String
 	let price: String
 	let itemDescription: String?
+	let category: String?
 
 	private enum CodingKeys: String, CodingKey {
-		case title, image, price
+		case title, image, price, category
 		case itemDescription = "description"
 	}
 
@@ -14,6 +15,7 @@ struct MenuItem: Decodable {
 		title = try container.decode(String.self, forKey: .title)
 		image = try container.decode(String.self, forKey: .image)
 		itemDescription = try container.decodeIfPresent(String.self, forKey: .itemDescription)
+		category = try container.decodeIfPresent(String.self, forKey: .category)
 
 		// The API has shipped `price` both as a JSON string ("10") and as a
 		// number (10 or 9.99). Accept either so one format change doesn't
