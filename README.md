@@ -17,10 +17,6 @@ A video preview of the app is available: [Showcase Little Lemon App](https://a-b
   - The menu is fetched from an API.
   - A search bar allows users to filter the menu items.
 
-## Project Overview
-
-The Little Lemon App is designed to provide a seamless user experience for managing restaurant interactions. Key functionalities include account management and menu selection with search capabilities.
-
 ## Requirements
 
 - iOS 17.2 or later
