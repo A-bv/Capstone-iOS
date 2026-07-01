@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct UserProfile: View {
-	@Environment(\.presentationMode) var presentation
-	
+	@AppStorage(keyIsLoggedIn) private var isLoggedIn = false
+
 	let firstName = UserDefaults.standard.string(forKey: keyFirstName) ?? ""
 	let lastName = UserDefaults.standard.string(forKey: keyLastName) ?? ""
 	let email = UserDefaults.standard.string(forKey: keyEmail) ?? ""
@@ -33,8 +33,7 @@ struct UserProfile: View {
 				.padding(.top)
 			
 			Button("Logout") {
-				UserDefaults.standard.set(false, forKey: keyIsLoggedIn)
-				self.presentation.wrappedValue.dismiss()
+				isLoggedIn = false
 			}
 			.padding(.top)
 			

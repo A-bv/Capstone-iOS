@@ -16,7 +16,6 @@ struct Home: View {
 					Label("Profile", systemImage: "square.and.pencil")
 				}
 		}
-		.navigationBarBackButtonHidden(true)
 	}
 }
 

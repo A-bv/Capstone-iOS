@@ -6,10 +6,10 @@ let keyEmail = "emailKey"
 let keyIsLoggedIn = "isLoggedInKey"
 
 struct Onboarding: View {
+	@AppStorage(keyIsLoggedIn) private var isLoggedIn = false
 	@State private var firstName = ""
 	@State private var lastName = ""
 	@State private var email = ""
-	@State private var isLoggedIn = false
 	@State private var showAlert: Bool = false
 	
 	var body: some View {
@@ -37,7 +37,6 @@ struct Onboarding: View {
 						UserDefaults.standard.set(firstName, forKey: keyFirstName)
 						UserDefaults.standard.set(lastName, forKey: keyLastName)
 						UserDefaults.standard.set(email, forKey: keyEmail)
-						UserDefaults.standard.set(true, forKey: keyIsLoggedIn)
 						isLoggedIn = true
 					} else {
 						showAlert = true
@@ -51,14 +50,6 @@ struct Onboarding: View {
 				Spacer()
 			}
 			.padding()
-			.navigationDestination(isPresented: $isLoggedIn) {
-				Home()
-			}
-			.onAppear {
-				if UserDefaults.standard.bool(forKey: keyIsLoggedIn) {
-					isLoggedIn = true
-				}
-			}
 		}
 	}
 	
