@@ -2,36 +2,58 @@ import SwiftUI
 
 struct MenuItemDetailView: View {
 	let dish: Dish
-	
+
+	private enum Constants {
+		static let heroHeight: CGFloat = 260
+	}
+
 	var body: some View {
-		VStack {
-			if let imageUrlString = dish.image, let imageUrl = URL(string: imageUrlString) {
-				AsyncImage(url: imageUrl) { image in
-					image.resizable()
-						.aspectRatio(contentMode: .fit)
-				} placeholder: {
-					ProgressView()
+		ScrollView {
+			VStack(alignment: .leading, spacing: 16) {
+				if let image = dish.image, let url = URL(string: image) {
+					AsyncImage(url: url) { phase in
+						switch phase {
+						case .success(let image):
+							image.resizable().aspectRatio(contentMode: .fill)
+						case .failure:
+							Image(systemName: "photo")
+								.font(.largeTitle)
+								.foregroundStyle(.secondary)
+						case .empty:
+							ProgressView()
+						@unknown default:
+							Color(.systemGray6)
+						}
+					}
+					.frame(height: Constants.heroHeight)
+					.frame(maxWidth: .infinity)
+					.background(Color(.systemGray6))
+					.clipped()
 				}
-				.frame(maxWidth: .infinity)
-			}
-			
-			Text(dish.title ?? "")
-				.font(.title)
-				.padding()
-			
-			Text("Price: $\(dish.price ?? "")")
-				.font(.headline)
 
-			if let description = dish.itemDescription, !description.isEmpty {
-				Text(description)
-					.font(.body)
-					.foregroundColor(.secondary)
-					.multilineTextAlignment(.center)
-					.padding()
-			}
+				VStack(alignment: .leading, spacing: 12) {
+					HStack(alignment: .firstTextBaseline) {
+						Text(dish.title ?? "")
+							.font(.title.bold())
 
-			Spacer()
+						Spacer(minLength: 8)
+
+						Text("$\(dish.price ?? "")")
+							.font(.title3.weight(.semibold))
+							.foregroundStyle(Color.darkGreenLittleLemon)
+					}
+
+					if let description = dish.itemDescription, !description.isEmpty {
+						Text(description)
+							.font(.body)
+							.foregroundStyle(.secondary)
+					}
+				}
+				.padding(.horizontal)
+			}
+			.padding(.bottom)
 		}
-		.navigationTitle("Dish Details")
+		.navigationTitle(dish.title ?? "")
+		.navigationBarTitleDisplayMode(.inline)
 	}
 }
