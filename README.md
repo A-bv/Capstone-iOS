@@ -3,6 +3,12 @@
 
 A modern restaurant app built using SwiftUI.
 
+## Preview
+
+<p align="center">
+  <img src="Screenshots/preview.gif" width="250" alt="Little Lemon app walkthrough: sign up, browse the menu, view a dish, and the profile">
+</p>
+
 ## Screenshots
 
 | Sign up | Menu |
