@@ -3,27 +3,17 @@ import SwiftUI
 struct Menu: View {
 	@StateObject private var viewModel = MenuViewModel()
 	@Environment(\.managedObjectContext) private var viewContext
-	@State private var searchText = ""
-	
+
 	private enum Constants {
 		static let imageLength: CGFloat = 100
 		static let imageCornerRadius: CGFloat = 8
-		static let searchBarContainerHeight: CGFloat = 50
 	}
 	
 	var body: some View {
 		NavigationStack {
 			VStack(spacing: 0) {
 				MenuHeroView()
-				VStack {
-					ExpandingSearchBar(searchText: $searchText, onSearchButtonClicked: {
-						viewModel.applySearchFilter(searchText)
-					})
-					.frame(maxHeight: .infinity)
-				}
-				.frame(height: Constants.searchBarContainerHeight)
-				//.border(Color.red, width: 1)
-				
+
 				MenuBreakdownView(viewModel: viewModel)
 
 				if let errorMessage = viewModel.errorMessage {
@@ -69,11 +59,9 @@ struct Menu: View {
 					.listStyle(.plain)
 				}
 			}
+			.searchable(text: $viewModel.searchText, prompt: "Search the menu")
 			.onAppear {
 				viewModel.getMenuData(context: viewContext)
-			}
-			.onChange(of: searchText) {
-				viewModel.applySearchFilter(searchText)
 			}
 			.navigationBarTitleDisplayMode(.inline)
 			.toolbar {

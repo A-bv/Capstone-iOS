@@ -21,7 +21,6 @@
 		EF8C798E2C2C13E400671158 /* ExampleDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EF8C798C2C2C13E400671158 /* ExampleDatabase.xcdatamodeld */; };
 		EF8C79932C2C5B4B00671158 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C79922C2C5B4B00671158 /* MenuViewModel.swift */; };
 		EF8C799B2C2C647600671158 /* MenuItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C799A2C2C647600671158 /* MenuItemDetailView.swift */; };
-		EF8C799D2C2D66A500671158 /* ExpandingSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C799C2C2D66A500671158 /* ExpandingSearchBar.swift */; };
 		EF8C799F2C2D858600671158 /* MenuHeroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C799E2C2D858600671158 /* MenuHeroView.swift */; };
 		EF8C79A12C2E139500671158 /* MenuBreakdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C79A02C2E139500671158 /* MenuBreakdownView.swift */; };
 		DD000000000000000000000B /* RestaurantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD000000000000000000000A /* RestaurantTests.swift */; };
@@ -43,7 +42,6 @@
 		EF8C798D2C2C13E400671158 /* ExampleDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ExampleDatabase.xcdatamodel; sourceTree = "<group>"; };
 		EF8C79922C2C5B4B00671158 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		EF8C799A2C2C647600671158 /* MenuItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemDetailView.swift; sourceTree = "<group>"; };
-		EF8C799C2C2D66A500671158 /* ExpandingSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingSearchBar.swift; sourceTree = "<group>"; };
 		EF8C799E2C2D858600671158 /* MenuHeroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeroView.swift; sourceTree = "<group>"; };
 		EF8C79A02C2E139500671158 /* MenuBreakdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBreakdownView.swift; sourceTree = "<group>"; };
 		DD0000000000000000000008 /* RestaurantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestaurantTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,7 +139,6 @@
 			children = (
 				EF8C797E2C2B805D00671158 /* Menu.swift */,
 				EF8C799A2C2C647600671158 /* MenuItemDetailView.swift */,
-				EF8C799C2C2D66A500671158 /* ExpandingSearchBar.swift */,
 				EF8C799E2C2D858600671158 /* MenuHeroView.swift */,
 				EF8C79A02C2E139500671158 /* MenuBreakdownView.swift */,
 			);
@@ -305,7 +302,6 @@
 				EF8C797F2C2B805D00671158 /* Menu.swift in Sources */,
 				EF8C79852C2BFD5C00671158 /* FetchedObjects.swift in Sources */,
 				EF8C798B2C2BFE8C00671158 /* MenuItem.swift in Sources */,
-				EF8C799D2C2D66A500671158 /* ExpandingSearchBar.swift in Sources */,
 				EF8C796D2C2822A000671158 /* RestaurantApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -123,10 +123,6 @@ final class MenuViewModel: ObservableObject {
 		}
 	}
 
-	func applySearchFilter(_ searchText: String) {
-		self.searchText = searchText
-	}
-
 	private func buildSortDescriptors() -> [NSSortDescriptor] {
 		return [
 			NSSortDescriptor(key: "title", ascending: true, selector: #selector(NSString.localizedStandardCompare))
