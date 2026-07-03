@@ -52,9 +52,11 @@ final class MenuViewModel: ObservableObject {
 			updateFilteredDishes()
 		}
 
-		// Only hit the network the first time, when the cache is still empty.
-		// This avoids re-downloading (and duplicating) the menu on every appear.
-		guard dishes.isEmpty else { return }
+		// Only hit the network the first time, when the cache is still empty and
+		// no load is already running. Without the isLoading check, a rapid
+		// re-appear (e.g. a tab switch) would start a second download while the
+		// first is in flight and duplicate the whole menu.
+		guard dishes.isEmpty, !isLoading else { return }
 
 		guard let url = URL(string: urlString) else {
 			errorMessage = "The menu address is invalid."

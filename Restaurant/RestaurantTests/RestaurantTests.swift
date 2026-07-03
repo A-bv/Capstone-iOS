@@ -134,6 +134,32 @@ final class RestaurantTests: XCTestCase {
 		XCTAssertEqual(viewModel.dishes.count, 1)
 	}
 
+	func testConcurrentLoadsFetchOnlyOnce() async {
+		let context = makeContext() // empty cache
+		let json = Data("""
+		{ "menu": [
+			{ "title": "Bruschetta", "image": "https://x/b.jpg", "price": "10", "category": "starters" },
+			{ "title": "Grilled Fish", "image": "https://x/f.jpg", "price": "20", "category": "mains" }
+		] }
+		""".utf8)
+
+		var fetchCount = 0
+		let viewModel = MenuViewModel(fetchData: { _ in fetchCount += 1; return json })
+
+		// Two appears in quick succession, before the first load finishes.
+		viewModel.getMenuData(context: context)
+		viewModel.getMenuData(context: context)
+
+		var spins = 0
+		while viewModel.isLoading && spins < 1000 {
+			await Task.yield()
+			spins += 1
+		}
+
+		XCTAssertEqual(fetchCount, 1, "A second appear must not start another download")
+		XCTAssertEqual(viewModel.dishes.count, 2, "The menu must not be duplicated")
+	}
+
 	func testNetworkLoadPopulatesDishesAndCategories() async {
 		let context = makeContext() // empty
 		let json = Data("""
