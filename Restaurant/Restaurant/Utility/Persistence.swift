@@ -1,16 +1,44 @@
 import CoreData
 import Foundation
+import OSLog
 
 struct PersistenceController {
     static let shared = PersistenceController()
 
     let container: NSPersistentContainer
+    private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Restaurant", category: "Persistence")
 
-    init() {
-        container = NSPersistentContainer(name: "ExampleDatabase")
-        // Use the default on-disk store so the cached menu survives app launches.
-        container.loadPersistentStores(completionHandler: {_,_ in })
+    /// - Parameter inMemory: when true, backs the store with /dev/null so tests
+    ///   and previews get a fresh, disposable store instead of the on-disk cache.
+    init(inMemory: Bool = false) {
+        let container = NSPersistentContainer(name: "ExampleDatabase")
+        if inMemory {
+            container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+        }
+
+        container.loadPersistentStores { description, error in
+            guard let error else { return }
+
+            // The store holds only the re-downloadable menu cache, so a load
+            // failure (a corrupt or un-migratable store) is recoverable: log it,
+            // destroy the store, and try once more.
+            Self.logger.fault("Store failed to load: \(error.localizedDescription, privacy: .public). Rebuilding.")
+
+            guard !inMemory, let url = description.url else {
+                assertionFailure("Unrecoverable Core Data store error: \(error)")
+                return
+            }
+            try? container.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
+            container.loadPersistentStores { _, retryError in
+                if let retryError {
+                    Self.logger.fault("Store still failed after rebuild: \(retryError.localizedDescription, privacy: .public).")
+                    assertionFailure("Unrecoverable Core Data store error: \(retryError)")
+                }
+            }
+        }
+
         container.viewContext.automaticallyMergesChangesFromParent = true
+        self.container = container
     }
     
     func clear() {
