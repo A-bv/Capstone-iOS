@@ -8,10 +8,21 @@ struct PersistenceController {
     let container: NSPersistentContainer
     private static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Restaurant", category: "Persistence")
 
+    // Load the model exactly once and share it, so instantiating more than one
+    // container (e.g. in-memory stores in tests) doesn't reload it and leave
+    // Core Data unable to match `Dish` to a single entity description.
+    private static let model: NSManagedObjectModel = {
+        guard let url = Bundle(for: Dish.self).url(forResource: "ExampleDatabase", withExtension: "momd"),
+              let model = NSManagedObjectModel(contentsOf: url) else {
+            fatalError("Missing Core Data model 'ExampleDatabase'")
+        }
+        return model
+    }()
+
     /// - Parameter inMemory: when true, backs the store with /dev/null so tests
     ///   and previews get a fresh, disposable store instead of the on-disk cache.
     init(inMemory: Bool = false) {
-        let container = NSPersistentContainer(name: "ExampleDatabase")
+        let container = NSPersistentContainer(name: "ExampleDatabase", managedObjectModel: Self.model)
         if inMemory {
             container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
         }

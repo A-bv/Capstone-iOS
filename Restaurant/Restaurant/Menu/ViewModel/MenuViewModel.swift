@@ -26,6 +26,14 @@ final class MenuViewModel: ObservableObject {
 	// Preferred display order; any categories the API adds later are appended alphabetically.
 	private let categoryOrder = ["starters", "mains", "desserts", "drinks", "sides", "specials"]
 
+	// Fetches the raw menu bytes. Injected so tests can supply canned data
+	// instead of hitting the network.
+	private let fetchData: (URL) async throws -> Data
+
+	init(fetchData: @escaping (URL) async throws -> Data = { try await URLSession.shared.data(from: $0).0 }) {
+		self.fetchData = fetchData
+	}
+
 	/// Selects a category, or clears the filter when the active one is tapped again.
 	func toggleCategory(_ category: String) {
 		selectedCategory = (selectedCategory == category) ? nil : category
@@ -56,19 +64,23 @@ final class MenuViewModel: ObservableObject {
 		isLoading = true
 		errorMessage = nil
 
-		Task {
-			do {
-				let (data, _) = try await URLSession.shared.data(from: url)
-				let menuList = try JSONDecoder().decode(MenuList.self, from: data)
-				saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
-				fetchMenuItemsFromCoreData(context: context)
-			} catch let error as DecodingError {
-				errorMessage = "Couldn't read the menu data.\n\(error.localizedDescription)"
-			} catch {
-				errorMessage = "Couldn't load the menu. Please check your connection and try again.\n\(error.localizedDescription)"
-			}
-			isLoading = false
+		Task { await loadMenu(from: url, context: context) }
+	}
+
+	/// Downloads, decodes, and caches the menu. Separated from getMenuData so
+	/// tests can await it directly with an injected fetch.
+	func loadMenu(from url: URL, context: NSManagedObjectContext) async {
+		do {
+			let data = try await fetchData(url)
+			let menuList = try JSONDecoder().decode(MenuList.self, from: data)
+			saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
+			fetchMenuItemsFromCoreData(context: context)
+		} catch let error as DecodingError {
+			errorMessage = "Couldn't read the menu data.\n\(error.localizedDescription)"
+		} catch {
+			errorMessage = "Couldn't load the menu. Please check your connection and try again.\n\(error.localizedDescription)"
 		}
+		isLoading = false
 	}
 
 	private func saveMenuItemsToCoreData(context: NSManagedObjectContext, menuItems: [MenuItem]) {
