@@ -160,6 +160,16 @@ final class RestaurantTests: XCTestCase {
 		XCTAssertEqual(viewModel.dishes.count, 2, "The menu must not be duplicated")
 	}
 
+	func testCancelledLoadShowsNoError() async {
+		let context = makeContext()
+		let viewModel = MenuViewModel(fetchData: { _ in throw URLError(.cancelled) })
+
+		await viewModel.loadMenu(from: URL(string: "https://example.com/menu.json")!, context: context)
+
+		XCTAssertNil(viewModel.errorMessage, "A cancelled load must not show an error")
+		XCTAssertFalse(viewModel.isLoading)
+	}
+
 	func testNetworkLoadPopulatesDishesAndCategories() async {
 		let context = makeContext() // empty
 		let json = Data("""

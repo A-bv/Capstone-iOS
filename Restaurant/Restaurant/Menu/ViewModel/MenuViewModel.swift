@@ -29,9 +29,15 @@ final class MenuViewModel: ObservableObject {
 	// Fetches the raw menu bytes. Injected so tests can supply canned data
 	// instead of hitting the network.
 	private let fetchData: (URL) async throws -> Data
+	private var loadTask: Task<Void, Never>?
 
 	init(fetchData: @escaping (URL) async throws -> Data = { try await URLSession.shared.data(from: $0).0 }) {
 		self.fetchData = fetchData
+	}
+
+	/// Cancels an in-flight menu download, e.g. when the menu screen goes away.
+	func cancelLoading() {
+		loadTask?.cancel()
 	}
 
 	/// Selects a category, or clears the filter when the active one is tapped again.
@@ -66,7 +72,7 @@ final class MenuViewModel: ObservableObject {
 		isLoading = true
 		errorMessage = nil
 
-		Task { await loadMenu(from: url, context: context) }
+		loadTask = Task { await loadMenu(from: url, context: context) }
 	}
 
 	/// Downloads, decodes, and caches the menu. Separated from getMenuData so
@@ -77,6 +83,10 @@ final class MenuViewModel: ObservableObject {
 			let menuList = try JSONDecoder().decode(MenuList.self, from: data)
 			saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
 			fetchMenuItemsFromCoreData(context: context)
+		} catch is CancellationError {
+			// The screen went away mid-load; not a user-facing error.
+		} catch let error as URLError where error.code == .cancelled {
+			// URLSession surfaces cancellation as URLError.cancelled.
 		} catch let error as DecodingError {
 			errorMessage = "Couldn't read the menu data.\n\(error.localizedDescription)"
 		} catch {

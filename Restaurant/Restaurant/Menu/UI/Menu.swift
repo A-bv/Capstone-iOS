@@ -45,6 +45,9 @@ struct Menu: View {
 			.onAppear {
 				viewModel.getMenuData(context: viewContext)
 			}
+			.onDisappear {
+				viewModel.cancelLoading()
+			}
 			.navigationBarTitleDisplayMode(.inline)
 			.toolbar {
 				ToolbarItem(placement: .principal) {
