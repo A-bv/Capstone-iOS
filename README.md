@@ -1,7 +1,7 @@
 
 # Little Lemon App
 
-![Swift](https://img.shields.io/badge/Swift-6.0-F05138?logo=swift&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-iOS%2017.2%2B-1575F9?logo=apple&logoColor=white) ![Xcode](https://img.shields.io/badge/Xcode-16%2B-147EFB?logo=xcode&logoColor=white) [![License](https://img.shields.io/badge/License-MIT-3DA639)](LICENSE)
+[![CI](https://github.com/A-bv/Capstone-iOS/actions/workflows/ci.yml/badge.svg)](https://github.com/A-bv/Capstone-iOS/actions/workflows/ci.yml) ![Swift](https://img.shields.io/badge/Swift-6.0-F05138?logo=swift&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-iOS%2017.2%2B-1575F9?logo=apple&logoColor=white) ![Xcode](https://img.shields.io/badge/Xcode-16%2B-147EFB?logo=xcode&logoColor=white) [![License](https://img.shields.io/badge/License-MIT-3DA639)](LICENSE)
 
 A modern restaurant app built using SwiftUI.
 
