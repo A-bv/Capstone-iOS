@@ -41,6 +41,7 @@ struct PersistenceController {
                 assertionFailure("Unrecoverable Core Data store error: \(error)")
                 return
             }
+            // Best-effort: if this fails, the reload below surfaces the problem.
             try? container.persistentStoreCoordinator.destroyPersistentStore(at: url, type: .sqlite)
             container.loadPersistentStores { _, retryError in
                 if let retryError {
@@ -52,12 +53,5 @@ struct PersistenceController {
 
         container.viewContext.automaticallyMergesChangesFromParent = true
         self.container = container
-    }
-    
-    func clear() {
-        // Delete all dishes from the store
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Dish")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        let _ = try? container.persistentStoreCoordinator.execute(deleteRequest, with: container.viewContext)
     }
 }

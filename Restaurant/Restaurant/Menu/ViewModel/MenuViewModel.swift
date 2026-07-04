@@ -53,7 +53,11 @@ final class MenuViewModel: ObservableObject {
 		// category filter has something to work with after an app update.
 		if !dishes.isEmpty && dishes.contains(where: { ($0.category ?? "").isEmpty }) {
 			dishes.forEach(context.delete)
-			try? context.save()
+			do {
+				try context.save()
+			} catch {
+				logger.error("Failed to clear the stale menu cache: \(error.localizedDescription, privacy: .public)")
+			}
 			dishes = []
 			updateFilteredDishes()
 		}
