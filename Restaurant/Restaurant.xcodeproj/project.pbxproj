@@ -15,7 +15,6 @@
 		EF8C797F2C2B805D00671158 /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C797E2C2B805D00671158 /* Menu.swift */; };
 		EF8C79812C2B832500671158 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C79802C2B832500671158 /* UserProfile.swift */; };
 		EF8C79842C2BFD5C00671158 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C79822C2BFD5C00671158 /* Persistence.swift */; };
-		EF8C79852C2BFD5C00671158 /* FetchedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C79832C2BFD5C00671158 /* FetchedObjects.swift */; };
 		EF8C79892C2BFE5F00671158 /* MenuList.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C79882C2BFE5F00671158 /* MenuList.swift */; };
 		EF8C798B2C2BFE8C00671158 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C798A2C2BFE8C00671158 /* MenuItem.swift */; };
 		EF8C798E2C2C13E400671158 /* ExampleDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EF8C798C2C2C13E400671158 /* ExampleDatabase.xcdatamodeld */; };
@@ -36,7 +35,6 @@
 		EF8C797E2C2B805D00671158 /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		EF8C79802C2B832500671158 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		EF8C79822C2BFD5C00671158 /* Persistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		EF8C79832C2BFD5C00671158 /* FetchedObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchedObjects.swift; sourceTree = "<group>"; };
 		EF8C79882C2BFE5F00671158 /* MenuList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuList.swift; sourceTree = "<group>"; };
 		EF8C798A2C2BFE8C00671158 /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		EF8C798D2C2C13E400671158 /* ExampleDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ExampleDatabase.xcdatamodel; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 		EF8C79872C2BFE2700671158 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
-				EF8C79832C2BFD5C00671158 /* FetchedObjects.swift */,
 				EF8C79822C2BFD5C00671158 /* Persistence.swift */,
 			);
 			path = Utility;
@@ -300,7 +297,6 @@
 				EF8C79932C2C5B4B00671158 /* MenuViewModel.swift in Sources */,
 				EF8C798E2C2C13E400671158 /* ExampleDatabase.xcdatamodeld in Sources */,
 				EF8C797F2C2B805D00671158 /* Menu.swift in Sources */,
-				EF8C79852C2BFD5C00671158 /* FetchedObjects.swift in Sources */,
 				EF8C798B2C2BFE8C00671158 /* MenuItem.swift in Sources */,
 				EF8C796D2C2822A000671158 /* RestaurantApp.swift in Sources */,
 			);
