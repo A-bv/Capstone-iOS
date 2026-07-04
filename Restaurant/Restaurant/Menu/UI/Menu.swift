@@ -56,6 +56,7 @@ struct Menu: View {
 							.resizable()
 							.scaledToFit()
 							.padding(5)
+							.accessibilityLabel("Little Lemon")
 					}
 				}
 			}
@@ -109,8 +110,10 @@ struct MenuRow: View {
 				.frame(width: Constants.imageSize, height: Constants.imageSize)
 				.background(Color(.systemGray6))
 				.clipShape(RoundedRectangle(cornerRadius: Constants.cornerRadius))
+				.accessibilityHidden(true)
 			}
 		}
 		.padding(.vertical, 6)
+		.accessibilityElement(children: .combine)
 	}
 }

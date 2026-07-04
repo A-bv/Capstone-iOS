@@ -60,6 +60,7 @@ struct Onboarding: View {
 				.resizable()
 				.scaledToFit()
 				.frame(height: 64)
+				.accessibilityLabel("Little Lemon")
 
 			Text("Create your account")
 				.font(.title2.bold())
@@ -100,17 +101,21 @@ struct OnboardingField: View {
 			Text(title)
 				.font(.caption.weight(.semibold))
 				.foregroundStyle(.secondary)
+				.accessibilityHidden(true)
 
 			TextField(title, text: $text)
 				.textFieldStyle(.roundedBorder)
 				.keyboardType(keyboardType)
 				.textInputAutocapitalization(autocapitalization)
 				.disableAutocorrection(true)
+				.accessibilityLabel(title)
+				.accessibilityHint(footer ?? "")
 
 			if let footer {
 				Text(footer)
 					.font(.caption)
 					.foregroundStyle(.red)
+					.accessibilityHidden(true)
 			}
 		}
 	}

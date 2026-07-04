@@ -29,6 +29,7 @@ struct MenuItemDetailView: View {
 					.frame(maxWidth: .infinity)
 					.background(Color(.systemGray6))
 					.clipped()
+					.accessibilityLabel(Text("Photo of \(dish.title ?? "the dish")"))
 				}
 
 				VStack(alignment: .leading, spacing: 12) {

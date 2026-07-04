@@ -51,6 +51,7 @@ struct CategoryChip: View {
 				.clipShape(Capsule())
 		}
 		.buttonStyle(.plain)
+		.accessibilityAddTraits(isSelected ? [.isSelected] : [])
 	}
 }
 

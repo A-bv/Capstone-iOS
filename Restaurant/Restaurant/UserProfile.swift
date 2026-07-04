@@ -25,6 +25,7 @@ struct UserProfile: View {
 							.foregroundStyle(.white)
 					}
 					.frame(width: 96, height: 96)
+					.accessibilityHidden(true)
 
 					Text("\(firstName) \(lastName)")
 						.font(.title2.bold())
@@ -81,6 +82,7 @@ struct ProfileRow: View {
 				.multilineTextAlignment(.trailing)
 		}
 		.padding()
+		.accessibilityElement(children: .combine)
 	}
 }
 

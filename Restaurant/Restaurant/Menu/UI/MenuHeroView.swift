@@ -42,6 +42,7 @@ struct MenuHeroView: View {
 					.cornerRadius(10)
 					.clipped()
 					.padding(.trailing, 10)
+					.accessibilityHidden(true)
 			}
 			.frame(height: Constants.headerHeight)
 		}
