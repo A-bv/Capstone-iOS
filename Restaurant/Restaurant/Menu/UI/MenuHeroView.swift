@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct MenuHeroView: View {
+	// Seeded at the design size but scales with the user's Dynamic Type setting.
+	@ScaledMetric(relativeTo: .title) private var titleSize: CGFloat = 30
+
 	private enum Constants {
 		static let headerHeight: CGFloat = 220
 	}
@@ -13,7 +16,7 @@ struct MenuHeroView: View {
 				VStack(alignment: .leading, spacing: 0) {
 					VStack(alignment: .leading) {
 						Text("Little Lemon")
-							.font(.system(size: 30, weight: .medium))
+							.font(.system(size: titleSize, weight: .medium))
 							.foregroundColor(.yellowLittleLemon)
 							
 						Text("Chicago")
