@@ -11,7 +11,9 @@ struct PersistenceController {
     // Load the model exactly once and share it, so instantiating more than one
     // container (e.g. in-memory stores in tests) doesn't reload it and leave
     // Core Data unable to match `Dish` to a single entity description.
-    private static let model: NSManagedObjectModel = {
+    // nonisolated(unsafe): an NSManagedObjectModel is immutable once built and
+    // safe to read from any thread, but it isn't marked Sendable by Core Data.
+    private nonisolated(unsafe) static let model: NSManagedObjectModel = {
         guard let url = Bundle(for: Dish.self).url(forResource: "ExampleDatabase", withExtension: "momd"),
               let model = NSManagedObjectModel(contentsOf: url) else {
             fatalError("Missing Core Data model 'ExampleDatabase'")
