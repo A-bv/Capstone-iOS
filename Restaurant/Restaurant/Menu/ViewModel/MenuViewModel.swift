@@ -28,13 +28,37 @@ final class MenuViewModel {
 	// Preferred display order; any categories the API adds later are appended alphabetically.
 	private let categoryOrder = ["starters", "mains", "desserts", "drinks", "sides", "specials"]
 
+	// A session with a shorter request timeout than URLSession.shared's 60s.
+	private static let session: URLSession = {
+		let config = URLSessionConfiguration.default
+		config.timeoutIntervalForRequest = 15
+		config.timeoutIntervalForResource = 30
+		return URLSession(configuration: config)
+	}()
+
 	// Fetches the raw menu bytes. Injected so tests can supply canned data
 	// instead of hitting the network.
 	private let fetchData: (URL) async throws -> Data
 	private var loadTask: Task<Void, Never>?
 
-	init(fetchData: @escaping (URL) async throws -> Data = { try await URLSession.shared.data(from: $0).0 }) {
+	init(fetchData: @escaping (URL) async throws -> Data = { try await MenuViewModel.session.data(from: $0).0 }) {
 		self.fetchData = fetchData
+	}
+
+	// Fetches with one retry on a transient network error (a brief blip),
+	// but fails fast on cancellation or a non-transient error like being offline.
+	private func fetchWithRetry(_ url: URL) async throws -> Data {
+		do {
+			return try await fetchData(url)
+		} catch let error as URLError where Self.isTransient(error) && !Task.isCancelled {
+			logger.error("Menu fetch failed (\(error.code.rawValue)); retrying once.")
+			try? await Task.sleep(for: .milliseconds(500))
+			return try await fetchData(url)
+		}
+	}
+
+	private static func isTransient(_ error: URLError) -> Bool {
+		[.timedOut, .networkConnectionLost, .cannotConnectToHost, .dnsLookupFailed].contains(error.code)
 	}
 
 	/// Cancels an in-flight menu download, e.g. when the menu screen goes away.
@@ -85,7 +109,7 @@ final class MenuViewModel {
 	/// tests can await it directly with an injected fetch.
 	func loadMenu(from url: URL, context: NSManagedObjectContext) async {
 		do {
-			let data = try await fetchData(url)
+			let data = try await fetchWithRetry(url)
 			let menuList = try JSONDecoder().decode(MenuList.self, from: data)
 			saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
 			fetchMenuItemsFromCoreData(context: context)

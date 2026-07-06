@@ -170,6 +170,26 @@ final class RestaurantTests: XCTestCase {
 		XCTAssertFalse(viewModel.isLoading)
 	}
 
+	func testTransientErrorIsRetried() async {
+		let context = makeContext()
+		let json = Data("""
+		{ "menu": [ { "title": "Bruschetta", "image": "https://x/b.jpg", "price": "10", "category": "starters" } ] }
+		""".utf8)
+
+		var attempts = 0
+		let viewModel = MenuViewModel(fetchData: { _ in
+			attempts += 1
+			if attempts == 1 { throw URLError(.timedOut) }
+			return json
+		})
+
+		await viewModel.loadMenu(from: URL(string: "https://example.com/menu.json")!, context: context)
+
+		XCTAssertEqual(attempts, 2, "A transient failure should be retried once")
+		XCTAssertEqual(viewModel.dishes.count, 1, "The retry should recover the menu")
+		XCTAssertNil(viewModel.errorMessage)
+	}
+
 	func testNetworkLoadPopulatesDishesAndCategories() async {
 		let context = makeContext() // empty
 		let json = Data("""
