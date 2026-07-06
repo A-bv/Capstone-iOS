@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8FCC07D2F3C8D11B7612D662 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E87D8F4590A0549F434C8F68 /* Foundation.framework */; };
+		A93A6CDEFFB6C5A8FA654CB5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6B104DFEFDFBAC00B600B10C /* PrivacyInfo.xcprivacy */; };
 		DD000000000000000000000B /* RestaurantTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD000000000000000000000A /* RestaurantTests.swift */; };
 		E98B16F62D2092D969E8EF92 /* RestaurantUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 624AE7858A37108735D487F8 /* RestaurantUITests.swift */; };
 		EF8C796D2C2822A000671158 /* RestaurantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8C796C2C2822A000671158 /* RestaurantApp.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		624AE7858A37108735D487F8 /* RestaurantUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RestaurantUITests.swift; sourceTree = "<group>"; };
+		6B104DFEFDFBAC00B600B10C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		709E65D657FAB19F4991A9BE /* RestaurantUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestaurantUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD0000000000000000000008 /* RestaurantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestaurantTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD000000000000000000000A /* RestaurantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTests.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				EF8C796C2C2822A000671158 /* RestaurantApp.swift */,
 				EF8C79702C2822A800671158 /* Assets.xcassets */,
 				EF8C79722C2822A800671158 /* Preview Content */,
+				6B104DFEFDFBAC00B600B10C /* PrivacyInfo.xcprivacy */,
 			);
 			path = Restaurant;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 			files = (
 				EF8C79742C2822A800671158 /* Preview Assets.xcassets in Resources */,
 				EF8C79712C2822A800671158 /* Assets.xcassets in Resources */,
+				A93A6CDEFFB6C5A8FA654CB5 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
