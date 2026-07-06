@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MenuBreakdownView: View {
-	@ObservedObject var viewModel: MenuViewModel
+	var viewModel: MenuViewModel
 
 	var body: some View {
 		Group {

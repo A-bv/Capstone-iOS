@@ -1,21 +1,23 @@
 import CoreData
 import OSLog
+import Observation
 
 @MainActor
-final class MenuViewModel: ObservableObject {
+@Observable
+final class MenuViewModel {
 	private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Restaurant", category: "MenuViewModel")
 
-	@Published var dishes: [Dish] = []
-	@Published var filteredDishes: [Dish] = []
-	@Published var categories: [String] = []
-	@Published var isLoading = false
-	@Published var errorMessage: String?
-	@Published var searchText: String = "" {
+	var dishes: [Dish] = []
+	var filteredDishes: [Dish] = []
+	var categories: [String] = []
+	var isLoading = false
+	var errorMessage: String?
+	var searchText: String = "" {
 		didSet {
 			updateFilteredDishes()
 		}
 	}
-	@Published var selectedCategory: String? {
+	var selectedCategory: String? {
 		didSet {
 			updateFilteredDishes()
 		}

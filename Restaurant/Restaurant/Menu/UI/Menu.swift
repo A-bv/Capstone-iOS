@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Menu: View {
-	@StateObject private var viewModel = MenuViewModel()
+	@State private var viewModel = MenuViewModel()
 	@Environment(\.managedObjectContext) private var viewContext
 
 	var body: some View {
