@@ -90,11 +90,11 @@ struct Onboarding: View {
 }
 
 struct OnboardingField: View {
-	let title: String
+	let title: LocalizedStringKey
 	@Binding var text: String
 	var keyboardType: UIKeyboardType = .default
 	var autocapitalization: TextInputAutocapitalization = .sentences
-	var footer: String? = nil
+	var footer: LocalizedStringKey? = nil
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 6) {

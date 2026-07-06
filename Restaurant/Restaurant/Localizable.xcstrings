@@ -1,0 +1,163 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "All" : {
+      "comment" : "Show every category",
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Tout" } }
+      }
+    },
+    "Chicago" : {
+      "shouldTranslate" : false
+    },
+    "Couldn't load the menu. Please check your connection and try again." : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible de charger le menu. Vérifiez votre connexion et réessayez." } }
+      }
+    },
+    "Couldn't read the menu data." : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Impossible de lire les données du menu." } }
+      }
+    },
+    "Create your account" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Créez votre compte" } }
+      }
+    },
+    "Drinks" : {
+      "comment" : "Menu category",
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Boissons" } }
+      }
+    },
+    "Email" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "E-mail" } }
+      }
+    },
+    "Enter a valid email address." : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Saisissez une adresse e-mail valide." } }
+      }
+    },
+    "First Name" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Prénom" } }
+      }
+    },
+    "First name" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Prénom" } }
+      }
+    },
+    "Last Name" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Nom" } }
+      }
+    },
+    "Last name" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Nom" } }
+      }
+    },
+    "Little Lemon" : {
+      "shouldTranslate" : false
+    },
+    "Loading menu…" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Chargement du menu…" } }
+      }
+    },
+    "Log out" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Se déconnecter" } }
+      }
+    },
+    "Mains" : {
+      "comment" : "Menu category",
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Plats" } }
+      }
+    },
+    "Menu unavailable" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Menu indisponible" } }
+      }
+    },
+    "No dishes found" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Aucun plat trouvé" } }
+      }
+    },
+    "ORDER FOR DELIVERY!" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "COMMANDEZ EN LIVRAISON !" } }
+      }
+    },
+    "Photo of %@" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Photo de %@" } }
+      }
+    },
+    "Profile" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Profil" } }
+      }
+    },
+    "Register" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "S'inscrire" } }
+      }
+    },
+    "Register to start ordering from Little Lemon." : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Inscrivez-vous pour commander chez Little Lemon." } }
+      }
+    },
+    "Retry" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Réessayer" } }
+      }
+    },
+    "Search the menu" : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Rechercher dans le menu" } }
+      }
+    },
+    "Sides" : {
+      "comment" : "Menu category",
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Accompagnements" } }
+      }
+    },
+    "Specials" : {
+      "comment" : "Menu category",
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Spécialités" } }
+      }
+    },
+    "Starters" : {
+      "comment" : "Menu category",
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Entrées" } }
+      }
+    },
+    "The menu address is invalid." : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "L'adresse du menu est invalide." } }
+      }
+    },
+    "Try a different search or category." : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Essayez une autre recherche ou catégorie." } }
+      }
+    },
+    "We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist." : {
+      "localizations" : {
+        "fr" : { "stringUnit" : { "state" : "translated", "value" : "Nous sommes un restaurant méditerranéen familial, attaché aux recettes traditionnelles revisitées avec modernité." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

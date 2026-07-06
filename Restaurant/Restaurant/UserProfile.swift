@@ -70,7 +70,7 @@ struct UserProfile: View {
 }
 
 struct ProfileRow: View {
-	let label: String
+	let label: LocalizedStringKey
 	let value: String
 
 	var body: some View {

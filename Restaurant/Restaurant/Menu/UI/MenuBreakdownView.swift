@@ -13,13 +13,13 @@ struct MenuBreakdownView: View {
 
 					ScrollView(.horizontal, showsIndicators: false) {
 						HStack(spacing: 10) {
-							CategoryChip(title: "All", isSelected: viewModel.selectedCategory == nil) {
+							CategoryChip(title: NSLocalizedString("All", comment: "Show every category"), isSelected: viewModel.selectedCategory == nil) {
 								viewModel.selectedCategory = nil
 							}
 
 							ForEach(viewModel.categories, id: \.self) { category in
 								CategoryChip(
-									title: category.capitalized,
+									title: NSLocalizedString(category.capitalized, comment: "Menu category"),
 									isSelected: viewModel.selectedCategory == category
 								) {
 									viewModel.toggleCategory(category)

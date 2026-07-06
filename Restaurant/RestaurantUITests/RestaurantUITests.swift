@@ -10,7 +10,9 @@ final class RestaurantUITests: XCTestCase {
 	/// Registers a new account, then walks onboarding → menu → profile.
 	func testOnboardingToMenuAndProfile() {
 		let app = XCUIApplication()
-		app.launchArguments = ["--uitesting-reset"] // start logged out with a clean slate
+		// Start logged out, and pin the language so the assertions below are
+		// stable regardless of the device's locale.
+		app.launchArguments = ["--uitesting-reset", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
 		app.launch()
 
 		// Onboarding is shown first.

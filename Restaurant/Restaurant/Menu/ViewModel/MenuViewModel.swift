@@ -69,7 +69,7 @@ final class MenuViewModel: ObservableObject {
 		guard dishes.isEmpty, !isLoading else { return }
 
 		guard let url = URL(string: urlString) else {
-			errorMessage = "The menu address is invalid."
+			errorMessage = String(localized: "The menu address is invalid.")
 			return
 		}
 
@@ -92,9 +92,9 @@ final class MenuViewModel: ObservableObject {
 		} catch let error as URLError where error.code == .cancelled {
 			// URLSession surfaces cancellation as URLError.cancelled.
 		} catch let error as DecodingError {
-			errorMessage = "Couldn't read the menu data.\n\(error.localizedDescription)"
+			errorMessage = String(localized: "Couldn't read the menu data.") + "\n" + error.localizedDescription
 		} catch {
-			errorMessage = "Couldn't load the menu. Please check your connection and try again.\n\(error.localizedDescription)"
+			errorMessage = String(localized: "Couldn't load the menu. Please check your connection and try again.") + "\n" + error.localizedDescription
 		}
 		isLoading = false
 	}
