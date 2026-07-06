@@ -10,7 +10,7 @@ struct MenuHeroView: View {
 	var body: some View {
 		ZStack {
 			Color.darkGreenLittleLemon
-				.frame(height: Constants.headerHeight)
+				.frame(minHeight: Constants.headerHeight)
 			
 			HStack{
 				VStack(alignment: .leading, spacing: 0) {
@@ -47,7 +47,7 @@ struct MenuHeroView: View {
 					.padding(.trailing, 10)
 					.accessibilityHidden(true)
 			}
-			.frame(height: Constants.headerHeight)
+			.frame(minHeight: Constants.headerHeight)
 		}
 	}
 }
