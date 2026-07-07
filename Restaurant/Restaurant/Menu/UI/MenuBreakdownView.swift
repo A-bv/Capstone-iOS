@@ -30,6 +30,7 @@ struct MenuBreakdownView: View {
 					}
 				}
 				.padding(.vertical, 12)
+				.sensoryFeedback(.selection, trigger: viewModel.selectedCategory)
 			}
 		}
 	}
@@ -49,6 +50,7 @@ struct CategoryChip: View {
 				.background(isSelected ? Color.darkGreenLittleLemon : Color(.systemGray6))
 				.foregroundColor(isSelected ? .white : .darkGreenLittleLemon)
 				.clipShape(Capsule())
+				.animation(.snappy, value: isSelected)
 		}
 		.buttonStyle(.plain)
 		.accessibilityAddTraits(isSelected ? [.isSelected] : [])

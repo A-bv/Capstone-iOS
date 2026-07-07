@@ -51,6 +51,7 @@ struct Onboarding: View {
 				}
 				.padding()
 			}
+			.sensoryFeedback(.success, trigger: isLoggedIn)
 		}
 	}
 

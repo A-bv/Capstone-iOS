@@ -39,6 +39,7 @@ struct Menu: View {
 						}
 					}
 					.listStyle(.plain)
+					.animation(.snappy, value: viewModel.filteredDishes.count)
 				}
 			}
 			.searchable(text: $viewModel.searchText, prompt: "Search the menu")
