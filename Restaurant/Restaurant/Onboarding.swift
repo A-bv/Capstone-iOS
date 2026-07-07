@@ -43,7 +43,7 @@ struct Onboarding: View {
 							.padding()
 							.background(isFormValid ? Color.yellowLittleLemon : Color(.systemGray4))
 							.foregroundStyle(isFormValid ? Color.darkGreenLittleLemon : Color(.systemGray))
-							.clipShape(RoundedRectangle(cornerRadius: 12))
+							.clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 					}
 					.disabled(!isFormValid)
 

@@ -45,8 +45,8 @@ struct CategoryChip: View {
 		Button(action: action) {
 			Text(title)
 				.font(.subheadline.weight(.semibold))
-				.padding(.horizontal, 16)
-				.padding(.vertical, 8)
+				.padding(.horizontal, Spacing.large)
+				.padding(.vertical, Spacing.small)
 				.background(isSelected ? Color.darkGreenLittleLemon : Color(.systemGray6))
 				.foregroundColor(isSelected ? .white : .darkGreenLittleLemon)
 				.clipShape(Capsule())

@@ -70,7 +70,7 @@ struct MenuRow: View {
 
 	private enum Constants {
 		static let imageSize: CGFloat = 80
-		static let cornerRadius: CGFloat = 8
+		static let cornerRadius = CornerRadius.small
 	}
 
 	var body: some View {

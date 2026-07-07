@@ -46,7 +46,7 @@ struct UserProfile: View {
 					ProfileRow(label: "Email", value: email)
 				}
 				.background(Color(.systemGray6))
-				.clipShape(RoundedRectangle(cornerRadius: 12))
+				.clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 				.padding(.horizontal)
 
 				Spacer()

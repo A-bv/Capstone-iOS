@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D1486FDBCAE894011C71D4B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 428D48FEED8F4A99FD40246F /* Theme.swift */; };
 		8FCC07D2F3C8D11B7612D662 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E87D8F4590A0549F434C8F68 /* Foundation.framework */; };
 		91A09C168813AAF38124189B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 9B97CE38BD2B429772B4CD61 /* Localizable.xcstrings */; };
 		A93A6CDEFFB6C5A8FA654CB5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6B104DFEFDFBAC00B600B10C /* PrivacyInfo.xcprivacy */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		428D48FEED8F4A99FD40246F /* Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		624AE7858A37108735D487F8 /* RestaurantUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RestaurantUITests.swift; sourceTree = "<group>"; };
 		6B104DFEFDFBAC00B600B10C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		709E65D657FAB19F4991A9BE /* RestaurantUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestaurantUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,6 +168,7 @@
 				EF8C79722C2822A800671158 /* Preview Content */,
 				6B104DFEFDFBAC00B600B10C /* PrivacyInfo.xcprivacy */,
 				9B97CE38BD2B429772B4CD61 /* Localizable.xcstrings */,
+				428D48FEED8F4A99FD40246F /* Theme.swift */,
 			);
 			path = Restaurant;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				EF8C797F2C2B805D00671158 /* Menu.swift in Sources */,
 				EF8C798B2C2BFE8C00671158 /* MenuItem.swift in Sources */,
 				EF8C796D2C2822A000671158 /* RestaurantApp.swift in Sources */,
+				0D1486FDBCAE894011C71D4B /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

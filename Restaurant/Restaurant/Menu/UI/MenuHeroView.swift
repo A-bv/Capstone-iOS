@@ -42,7 +42,7 @@ struct MenuHeroView: View {
 					.resizable()
 					.aspectRatio(contentMode: .fill)
 					.frame(width: 150, height: 150)
-					.cornerRadius(10)
+					.cornerRadius(CornerRadius.medium)
 					.clipped()
 					.padding(.trailing, 10)
 					.accessibilityHidden(true)
