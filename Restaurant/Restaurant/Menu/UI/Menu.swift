@@ -56,7 +56,7 @@ struct Menu: View {
 						Image("littleLemonBanner")
 							.resizable()
 							.scaledToFit()
-							.padding(5)
+							.frame(maxHeight: 30)
 							.accessibilityLabel("Little Lemon")
 					}
 				}
