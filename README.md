@@ -48,12 +48,12 @@ Pragmatic, main-actor MVVM. SwiftUI views observe a `@MainActor @Observable` vie
 
 ```mermaid
 flowchart TD
-    V["SwiftUI Views"] <--> VM["MenuViewModel<br/>@MainActor · @Observable"]
+    V["SwiftUI Views"] --> VM["MenuViewModel (@MainActor, @Observable)"]
     VM --> F["fetch seam"]
     VM --> S["store seam"]
-    F -->|app| NET["URLSession · timeout + retry"]
+    F -->|app| NET["URLSession (timeout + retry)"]
     F -.->|tests| J["canned JSON"]
-    S -->|app| D[("on-disk cache · self-healing")]
+    S -->|app| D[("on-disk cache, self-healing")]
     S -.->|tests| M[("in-memory store")]
 ```
 
