@@ -33,7 +33,13 @@ struct UserProfile: View {
 					if !email.isEmpty {
 						Text(email)
 							.font(.subheadline)
-							.foregroundStyle(.secondary)
+							// Readable muted color: .secondary misses 4.5:1 for
+							// small text, .primary at 60% clears it (both modes).
+							.foregroundStyle(.primary.opacity(0.6))
+							.multilineTextAlignment(.center)
+							// Let a long email wrap instead of clipping at large
+							// Dynamic Type sizes.
+							.fixedSize(horizontal: false, vertical: true)
 					}
 				}
 				.padding(.top, 24)
@@ -60,7 +66,9 @@ struct UserProfile: View {
 						.padding()
 				}
 				.buttonStyle(.borderedProminent)
-				.tint(.red)
+				// A deeper red than the system .red so the white label clears
+				// 4.5:1 contrast; still clearly destructive.
+				.tint(Color(red: 0.80, green: 0.12, blue: 0.11))
 				.padding(.horizontal)
 				.padding(.bottom)
 			}
@@ -76,10 +84,12 @@ struct ProfileRow: View {
 	var body: some View {
 		HStack {
 			Text(label)
-				.foregroundStyle(.secondary)
+				.foregroundStyle(.primary.opacity(0.6))
+				.fixedSize(horizontal: false, vertical: true)
 			Spacer()
 			Text(value)
 				.multilineTextAlignment(.trailing)
+				.fixedSize(horizontal: false, vertical: true)
 		}
 		.padding()
 		.accessibilityElement(children: .combine)
