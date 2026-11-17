@@ -11,18 +11,18 @@ struct Menu: View {
 
 				MenuBreakdownView(viewModel: viewModel)
 
-				if let errorMessage = viewModel.errorMessage {
+				if case .failed(let message) = viewModel.state {
 					ContentUnavailableView {
 						Label("Menu unavailable", systemImage: "wifi.exclamationmark")
 					} description: {
-						Text(errorMessage)
+						Text(message)
 					} actions: {
 						Button("Retry") {
 							viewModel.getMenuData(context: viewContext)
 						}
 					}
 					.frame(maxHeight: .infinity)
-				} else if viewModel.isLoading && viewModel.filteredDishes.isEmpty {
+				} else if viewModel.state == .loading && viewModel.filteredDishes.isEmpty {
 					ProgressView("Loading menu…")
 						.frame(maxHeight: .infinity)
 				} else if viewModel.filteredDishes.isEmpty {

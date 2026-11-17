@@ -7,11 +7,22 @@ import Observation
 final class MenuViewModel {
 	private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Restaurant", category: "MenuViewModel")
 
+	/// The menu's load lifecycle as one value, rather than separate
+	/// `isLoading`/`errorMessage` flags, so "loading" and "failed" can't both
+	/// be true at once. The loaded dishes and the filter inputs stay separate
+	/// because they outlive a single load and drive the live filter.
+	enum LoadState: Equatable {
+		case idle
+		case loading
+		case loaded
+		case failed(String)
+	}
+
+	private(set) var state: LoadState = .idle
+
 	var dishes: [Dish] = []
 	var filteredDishes: [Dish] = []
 	var categories: [String] = []
-	var isLoading = false
-	var errorMessage: String?
 	var searchText: String = "" {
 		didSet {
 			updateFilteredDishes()
@@ -89,18 +100,17 @@ final class MenuViewModel {
 		}
 
 		// Only hit the network the first time, when the cache is still empty and
-		// no load is already running. Without the isLoading check, a rapid
+		// no load is already running. Without the loading check, a rapid
 		// re-appear (e.g. a tab switch) would start a second download while the
 		// first is in flight and duplicate the whole menu.
-		guard dishes.isEmpty, !isLoading else { return }
+		guard dishes.isEmpty, state != .loading else { return }
 
 		guard let url = URL(string: urlString) else {
-			errorMessage = String(localized: "The menu address is invalid.")
+			state = .failed(String(localized: "The menu address is invalid."))
 			return
 		}
 
-		isLoading = true
-		errorMessage = nil
+		state = .loading
 
 		loadTask = Task { await loadMenu(from: url, context: context) }
 	}
@@ -113,16 +123,18 @@ final class MenuViewModel {
 			let menuList = try JSONDecoder().decode(MenuList.self, from: data)
 			saveMenuItemsToCoreData(context: context, menuItems: menuList.menu)
 			fetchMenuItemsFromCoreData(context: context)
+			state = .loaded
 		} catch is CancellationError {
-			// The screen went away mid-load; not a user-facing error.
+			// The screen went away mid-load; back to idle so a later appear can retry.
+			state = .idle
 		} catch let error as URLError where error.code == .cancelled {
 			// URLSession surfaces cancellation as URLError.cancelled.
+			state = .idle
 		} catch let error as DecodingError {
-			errorMessage = String(localized: "Couldn't read the menu data.") + "\n" + error.localizedDescription
+			state = .failed(String(localized: "Couldn't read the menu data.") + "\n" + error.localizedDescription)
 		} catch {
-			errorMessage = String(localized: "Couldn't load the menu. Please check your connection and try again.") + "\n" + error.localizedDescription
+			state = .failed(String(localized: "Couldn't load the menu. Please check your connection and try again.") + "\n" + error.localizedDescription)
 		}
-		isLoading = false
 	}
 
 	private func saveMenuItemsToCoreData(context: NSManagedObjectContext, menuItems: [MenuItem]) {

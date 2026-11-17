@@ -151,7 +151,7 @@ final class RestaurantTests: XCTestCase {
 		viewModel.getMenuData(context: context)
 
 		var spins = 0
-		while viewModel.isLoading && spins < 1000 {
+		while viewModel.state == .loading && spins < 1000 {
 			await Task.yield()
 			spins += 1
 		}
@@ -166,8 +166,7 @@ final class RestaurantTests: XCTestCase {
 
 		await viewModel.loadMenu(from: URL(string: "https://example.com/menu.json")!, context: context)
 
-		XCTAssertNil(viewModel.errorMessage, "A cancelled load must not show an error")
-		XCTAssertFalse(viewModel.isLoading)
+		XCTAssertEqual(viewModel.state, .idle, "A cancelled load must leave no error and allow a retry")
 	}
 
 	func testTransientErrorIsRetried() async {
@@ -187,7 +186,7 @@ final class RestaurantTests: XCTestCase {
 
 		XCTAssertEqual(attempts, 2, "A transient failure should be retried once")
 		XCTAssertEqual(viewModel.dishes.count, 1, "The retry should recover the menu")
-		XCTAssertNil(viewModel.errorMessage)
+		XCTAssertEqual(viewModel.state, .loaded)
 	}
 
 	func testNetworkLoadPopulatesDishesAndCategories() async {
@@ -204,7 +203,6 @@ final class RestaurantTests: XCTestCase {
 
 		XCTAssertEqual(viewModel.dishes.count, 2)
 		XCTAssertEqual(viewModel.categories, ["starters", "mains"])
-		XCTAssertFalse(viewModel.isLoading)
-		XCTAssertNil(viewModel.errorMessage)
+		XCTAssertEqual(viewModel.state, .loaded)
 	}
 }
