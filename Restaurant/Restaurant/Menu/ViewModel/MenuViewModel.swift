@@ -47,25 +47,29 @@ final class MenuViewModel {
 		}
 	}
 
-	private let urlString = "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json"
+	/// The menu feed and the session that fetches it, kept in one place.
+	private enum MenuAPI {
+		/// The published Little Lemon menu feed.
+		static let endpoint = URL(string: "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json")!
+
+		/// A session with a shorter request timeout than URLSession.shared's 60s.
+		static let session: URLSession = {
+			let config = URLSessionConfiguration.default
+			config.timeoutIntervalForRequest = 15
+			config.timeoutIntervalForResource = 30
+			return URLSession(configuration: config)
+		}()
+	}
 
 	// Preferred display order; any categories the API adds later are appended alphabetically.
 	private let categoryOrder = ["starters", "mains", "desserts", "drinks", "sides", "specials"]
-
-	// A session with a shorter request timeout than URLSession.shared's 60s.
-	private static let session: URLSession = {
-		let config = URLSessionConfiguration.default
-		config.timeoutIntervalForRequest = 15
-		config.timeoutIntervalForResource = 30
-		return URLSession(configuration: config)
-	}()
 
 	// Fetches the raw menu bytes. Injected so tests can supply canned data
 	// instead of hitting the network.
 	private let fetchData: (URL) async throws -> Data
 	private var loadTask: Task<Void, Never>?
 
-	init(fetchData: @escaping (URL) async throws -> Data = { try await MenuViewModel.session.data(from: $0).0 }) {
+	init(fetchData: @escaping (URL) async throws -> Data = { try await MenuAPI.session.data(from: $0).0 }) {
 		self.fetchData = fetchData
 	}
 
@@ -123,13 +127,8 @@ final class MenuViewModel {
 	private func startLoadIfNeeded(context: NSManagedObjectContext) {
 		guard dishes.isEmpty, state != .loading else { return }
 
-		guard let url = URL(string: urlString) else {
-			state = .failed(String(localized: "The menu address is invalid."))
-			return
-		}
-
 		state = .loading
-		loadTask = Task { await loadMenu(from: url, context: context) }
+		loadTask = Task { await loadMenu(from: MenuAPI.endpoint, context: context) }
 	}
 
 	/// Downloads, decodes, and caches the menu. Separated from getMenuData so
