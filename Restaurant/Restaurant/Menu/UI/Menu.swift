@@ -101,7 +101,7 @@ struct MenuRow: View {
 						image.resizable().aspectRatio(contentMode: .fill)
 					case .failure:
 						Image(systemName: "photo")
-							.foregroundStyle(.secondary)
+							.foregroundStyle(.readableSecondary)
 					case .empty:
 						ProgressView()
 					@unknown default:

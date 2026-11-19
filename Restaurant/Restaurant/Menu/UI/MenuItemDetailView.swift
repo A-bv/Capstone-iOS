@@ -18,7 +18,7 @@ struct MenuItemDetailView: View {
 						case .failure:
 							Image(systemName: "photo")
 								.font(.largeTitle)
-								.foregroundStyle(.secondary)
+								.foregroundStyle(.readableSecondary)
 						case .empty:
 							ProgressView()
 						@unknown default:
