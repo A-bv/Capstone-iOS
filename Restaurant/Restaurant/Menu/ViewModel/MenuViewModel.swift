@@ -96,25 +96,31 @@ final class MenuViewModel {
 	}
 
 	func getMenuData(context: NSManagedObjectContext) {
-		// Show whatever is already cached on disk first.
 		fetchMenuItemsFromCoreData(context: context)
+		discardStaleCacheIfNeeded(context: context)
+		startLoadIfNeeded(context: context)
+	}
 
-		// Refresh a cache written before dishes stored their category, so the
-		// category filter has something to work with after an app update.
-		if !dishes.isEmpty && dishes.contains(where: { ($0.category ?? "").isEmpty }) {
-			dishes.forEach(context.delete)
-			do {
-				try context.save()
-			} catch {
-				logger.error("Failed to clear the stale menu cache: \(error.localizedDescription, privacy: .public)")
-			}
-			dishes = []
+	/// A cache written before dishes stored their category leaves the filter
+	/// with nothing to work with after an app update. Clear it so the next
+	/// load rewrites it.
+	private func discardStaleCacheIfNeeded(context: NSManagedObjectContext) {
+		guard !dishes.isEmpty, dishes.contains(where: { ($0.category ?? "").isEmpty }) else { return }
+
+		dishes.forEach(context.delete)
+		do {
+			try context.save()
+		} catch {
+			logger.error("Failed to clear the stale menu cache: \(error.localizedDescription, privacy: .public)")
 		}
+		dishes = []
+	}
 
-		// Only hit the network the first time, when the cache is still empty and
-		// no load is already running. Without the loading check, a rapid
-		// re-appear (e.g. a tab switch) would start a second download while the
-		// first is in flight and duplicate the whole menu.
+	/// Downloads the menu only on the first run, when the cache is still empty
+	/// and no load is already in flight. The loading check stops a rapid
+	/// re-appear (e.g. a tab switch) from starting a second download and
+	/// duplicating the menu.
+	private func startLoadIfNeeded(context: NSManagedObjectContext) {
 		guard dishes.isEmpty, state != .loading else { return }
 
 		guard let url = URL(string: urlString) else {
@@ -123,7 +129,6 @@ final class MenuViewModel {
 		}
 
 		state = .loading
-
 		loadTask = Task { await loadMenu(from: url, context: context) }
 	}
 
