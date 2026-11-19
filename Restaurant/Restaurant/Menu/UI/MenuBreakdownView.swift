@@ -58,7 +58,13 @@ struct CategoryChip: View {
 }
 
 #Preview {
+	let context = PersistenceController(inMemory: true).container.viewContext
 	let viewModel = MenuViewModel()
-	viewModel.categories = ["starters", "mains", "desserts"]
+	for category in ["starters", "mains", "desserts"] {
+		let dish = Dish(context: context)
+		dish.title = category.capitalized
+		dish.category = category
+	}
+	viewModel.dishes = (try? context.fetch(Dish.fetchRequest())) ?? []
 	return MenuBreakdownView(viewModel: viewModel)
 }

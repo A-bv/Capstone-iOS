@@ -21,16 +21,29 @@ final class MenuViewModel {
 	private(set) var state: LoadState = .idle
 
 	var dishes: [Dish] = []
-	var filteredDishes: [Dish] = []
-	var categories: [String] = []
-	var searchText: String = "" {
-		didSet {
-			updateFilteredDishes()
+	var searchText: String = ""
+	var selectedCategory: String?
+
+	/// Categories present in the data, in the preferred display order with any
+	/// unknown ones appended alphabetically. Derived from `dishes`, so it can't
+	/// fall out of sync.
+	var categories: [String] {
+		let present = Set(dishes.compactMap { $0.category }.filter { !$0.isEmpty })
+		return present.sorted { lhs, rhs in
+			let li = categoryOrder.firstIndex(of: lhs) ?? Int.max
+			let ri = categoryOrder.firstIndex(of: rhs) ?? Int.max
+			return li == ri ? lhs < rhs : li < ri
 		}
 	}
-	var selectedCategory: String? {
-		didSet {
-			updateFilteredDishes()
+
+	/// The dishes matching the current category and search text. Derived from
+	/// `dishes`, `selectedCategory`, and `searchText`, so there is no cached
+	/// copy to keep in sync.
+	var filteredDishes: [Dish] {
+		let predicate = buildPredicate(searchText: searchText)
+		return dishes.filter { dish in
+			let matchesCategory = selectedCategory == nil || dish.category == selectedCategory
+			return matchesCategory && predicate.evaluate(with: dish)
 		}
 	}
 
@@ -96,7 +109,6 @@ final class MenuViewModel {
 				logger.error("Failed to clear the stale menu cache: \(error.localizedDescription, privacy: .public)")
 			}
 			dishes = []
-			updateFilteredDishes()
 		}
 
 		// Only hit the network the first time, when the cache is still empty and
@@ -161,31 +173,12 @@ final class MenuViewModel {
 
 		do {
 			dishes = try context.fetch(fetchRequest)
-			updateCategories()
-			updateFilteredDishes()
+			// Drop a selection that no longer exists in the refreshed data.
+			if let selected = selectedCategory, !categories.contains(selected) {
+				selectedCategory = nil
+			}
 		} catch {
 			logger.error("Failed to fetch menu from Core Data: \(error.localizedDescription, privacy: .public)")
-		}
-	}
-
-	private func updateCategories() {
-		let present = Set(dishes.compactMap { $0.category }.filter { !$0.isEmpty })
-		categories = present.sorted { lhs, rhs in
-			let li = categoryOrder.firstIndex(of: lhs) ?? Int.max
-			let ri = categoryOrder.firstIndex(of: rhs) ?? Int.max
-			return li == ri ? lhs < rhs : li < ri
-		}
-		// Drop a selection that no longer exists in the data.
-		if let selected = selectedCategory, !present.contains(selected) {
-			selectedCategory = nil
-		}
-	}
-
-	private func updateFilteredDishes() {
-		let predicate = buildPredicate(searchText: searchText)
-		filteredDishes = dishes.filter { dish in
-			let matchesCategory = selectedCategory == nil || dish.category == selectedCategory
-			return matchesCategory && predicate.evaluate(with: dish)
 		}
 	}
 
