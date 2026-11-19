@@ -93,6 +93,24 @@ final class RestaurantTests: XCTestCase {
 		XCTAssertEqual(viewModel.categories, ["starters", "mains", "desserts"])
 	}
 
+	func testStaleSelectedCategoryIsClearedWhenItLeavesTheData() {
+		let context = makeContext()
+		let starter = insertDish("Bruschetta", category: "starters", in: context)
+		insertDish("Grilled Fish", category: "mains", in: context)
+		try? context.save()
+
+		let viewModel = MenuViewModel()
+		viewModel.getMenuData(context: context) // cache present, so no network
+		viewModel.selectedCategory = "starters"
+
+		// The starters category disappears from the data on the next refresh.
+		context.delete(starter)
+		try? context.save()
+		viewModel.getMenuData(context: context)
+
+		XCTAssertNil(viewModel.selectedCategory, "A selection that no longer exists should be cleared")
+	}
+
 	func testFilterCombinesCategoryAndSearch() {
 		let context = makeContext()
 		insertDish("Bruschetta", category: "starters", in: context)
