@@ -42,10 +42,9 @@ struct Onboarding: View {
 							.frame(maxWidth: .infinity)
 							.padding()
 							.background(isFormValid ? Color.yellowLittleLemon : Color(.systemGray4))
-							// The disabled label was systemGray on systemGray4 (~2:1);
-					// primary at 60% keeps the muted, disabled look while clearing
-					// the WCAG contrast bar in both light and dark.
-					.foregroundStyle(isFormValid ? Color.darkGreenLittleLemon : Color.primary.opacity(0.6))
+							// systemGray on systemGray4 was ~2:1; readableSecondary keeps
+					// the muted, disabled look while clearing the contrast bar.
+					.foregroundStyle(isFormValid ? Color.darkGreenLittleLemon : .readableSecondary)
 							.clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 					}
 					.disabled(!isFormValid)
@@ -72,10 +71,7 @@ struct Onboarding: View {
 
 			Text("Register to start ordering from Little Lemon.")
 				.font(.subheadline)
-				// .primary at 60% stays adaptive for dark mode but clears the
-				// 4.5:1 WCAG contrast bar that the system .secondary color misses
-				// for small text on white.
-				.foregroundStyle(.primary.opacity(0.6))
+				.foregroundStyle(.readableSecondary)
 				.multilineTextAlignment(.center)
 		}
 		.padding(.top, 32)

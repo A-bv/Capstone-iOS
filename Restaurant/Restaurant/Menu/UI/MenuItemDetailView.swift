@@ -47,7 +47,7 @@ struct MenuItemDetailView: View {
 					if let description = dish.itemDescription, !description.isEmpty {
 						Text(description)
 							.font(.body)
-							.foregroundStyle(.secondary)
+							.foregroundStyle(.readableSecondary)
 					}
 				}
 				.padding(.horizontal)

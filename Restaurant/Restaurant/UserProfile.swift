@@ -33,9 +33,7 @@ struct UserProfile: View {
 					if !email.isEmpty {
 						Text(email)
 							.font(.subheadline)
-							// Readable muted color: .secondary misses 4.5:1 for
-							// small text, .primary at 60% clears it (both modes).
-							.foregroundStyle(.primary.opacity(0.6))
+							.foregroundStyle(.readableSecondary)
 							.multilineTextAlignment(.center)
 							// Let a long email wrap instead of clipping at large
 							// Dynamic Type sizes.
@@ -84,7 +82,7 @@ struct ProfileRow: View {
 	var body: some View {
 		HStack {
 			Text(label)
-				.foregroundStyle(.primary.opacity(0.6))
+				.foregroundStyle(.readableSecondary)
 				.fixedSize(horizontal: false, vertical: true)
 			Spacer()
 			Text(value)

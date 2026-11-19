@@ -83,7 +83,7 @@ struct MenuRow: View {
 				if let description = dish.itemDescription, !description.isEmpty {
 					Text(description)
 						.font(.subheadline)
-						.foregroundStyle(.secondary)
+						.foregroundStyle(.readableSecondary)
 						.lineLimit(2)
 				}
 
